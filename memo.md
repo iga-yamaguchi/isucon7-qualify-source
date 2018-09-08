@@ -1,14 +1,16 @@
 ```
-su isucon
-
 sudo ip route del default
 sudo ip route add default via 10.0.0.1 dev eth0
 
-export PATH=$HOME/local/go/bin:$HOME/go/bin:$PATH
-export GOPATH=/home/isucon/isubata/webapp/go
+sudo chown -R ubuntu:ubuntu /home/isucon/
+
+echo export PATH=/home/isucon/local/go/bin:\$HOME/go/bin:\$PATH >> ~/.bashrc 
+echo export GOPATH=/home/isucon/isubata/webapp/go >> ~/.bashrc
+source ~/.bashrc
 
 sudo systemctl stop nginx
 sudo systemctl stop isubata.php.service
+
 
 
 sudo rm /etc/nginx/sites-enabled/nginx.conf
@@ -23,8 +25,14 @@ sudo systemctl start nginx
 sudo apt install htop
 sudo apt install dstat
 
+sudo touch /var/log/mysql/slow_query.log
+
 dstat -tafm
 
-sudo mv /etc/mysql/mysql.conf.d/mysqld.cnf /home/isucon/isubata/files/db/mysqld.cnf
-sudo ln -s /home/isucon/isubata/files/db/mysqld.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+cd /home/isucon/isubata
+git remote set-url origin git@github.com:iga-yamaguchi/isucon7-qualify-source.git
+
+git fetch
+git checkout develop
+
 ```
